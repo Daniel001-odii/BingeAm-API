@@ -1,0 +1,73 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+// Prisma schema
+model WatchHistory {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId    String   @db.ObjectId
+    channelId String
+    watchedAt DateTime @default(now())
+    duration  Int // seconds
+    position  Int? // last playback position
+
+    user User @relation(fields: [userId], references: [id])
+
+    @@index([userId, channelId])
+}
+
+model User {
+    id               String    @id @default(auto()) @map("_id") @db.ObjectId
+    email            String    @unique
+    username         String    @unique
+    password         String
+    resetToken       String?
+    resetTokenExpiry DateTime?
+    createdAt        DateTime  @default(now())
+    updatedAt        DateTime  @updatedAt
+
+    favorites      Favorite[]
+    watchHistories WatchHistory[]
+}
+
+model Favorite {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    userId    String   @db.ObjectId
+    channelId String
+    addedAt   DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, channelId])
+}
+
+model Channel {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    channelId  String
+    name       String
+    altNames   String[]
+    network    String?
+    owners     String[]
+    country    String?
+    categories String[]
+    isNsfw     Boolean?
+    launched   String?
+    closed     String?
+    replacedBy String?
+    website    String?
+    streamUrl  String
+    logo       String?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    @@index([channelId])
+    @@index([name])
+    @@index([categories])
+    @@index([streamUrl])
+    @@map("channels")
+}
