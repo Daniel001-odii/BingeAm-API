@@ -31,3 +31,5 @@ logs/
 .idea/
 *.swp
 *.swo
+
+/generated/prisma
