@@ -129,7 +129,7 @@ class IPTVService {
      */
     async getChannelById(channelId: string): Promise<ChannelWithStream | null> {
         const channel = await prisma.channel.findFirst({
-            where: { channelId }
+            where: { id: channelId }
         });
 
         if (!channel) return null;

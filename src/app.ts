@@ -21,10 +21,11 @@ const app = express();
 
 // Security & Parsing
 app.use(helmet());
-app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+/* app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
     credentials: true
-}));
+})); */
+app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
@@ -47,14 +48,14 @@ app.get('/health', (_req, res) => {
 });
 
 // API Routes
-app.use('/auth', authRoutes);
-app.use('/profile', profileRoutes);
-app.use('/channels', channelRoutes);
-app.use('/categories', channelRoutes);
-app.use('/countries', channelRoutes);
-app.use('/languages', channelRoutes);
-app.use('/favorites', favoriteRoutes);
-app.use('/epg', epgRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/profile', profileRoutes);
+app.use('/api/channels', channelRoutes);
+app.use('/api/categories', channelRoutes);
+app.use('/api/countries', channelRoutes);
+app.use('/api/languages', channelRoutes);
+app.use('/api/favorites', favoriteRoutes);
+app.use('/api/epg', epgRoutes);
 
 // 404 handler
 app.all('*', (req, _res, next) => {
