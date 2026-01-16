@@ -23,7 +23,7 @@ export const getSchedule = async (req: Request, res: Response) => {
     });
 };
 
-export const getAvailability = async (req: Request, res: Response) => {
+export const getAvailability = async (_req: Request, res: Response) => {
     // Since we fetch EPG on demand based on country, we don't have a static list of "available" channels
     // unless we scan all countries on startup (expensive).
     // For now, return empty or implement a different strategy if needed.

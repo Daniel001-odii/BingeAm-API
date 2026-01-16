@@ -7,7 +7,7 @@ import { AppError } from '../utils/AppError';
  * Validate request with Zod schema
  */
 export const validate = (schema: AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, _res: Response, next: NextFunction) => {
         try {
             await schema.parseAsync({
                 body: req.body,

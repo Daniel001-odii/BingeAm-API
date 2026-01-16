@@ -42,7 +42,7 @@ const limiter = rateLimit({
 app.use('/auth', limiter);
 
 // Health check
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
@@ -57,7 +57,7 @@ app.use('/favorites', favoriteRoutes);
 app.use('/epg', epgRoutes);
 
 // 404 handler
-app.all('*', (req, res, next) => {
+app.all('*', (req, _res, next) => {
     next(new AppError(`Cannot find ${req.originalUrl} on this server`, 404));
 });
 

@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 import {
     IPTVChannel,
     IPTVStream,
-    IPTVLogo,
-    ChannelWithStream
+    IPTVLogo
 } from '../types';
 
 dotenv.config();

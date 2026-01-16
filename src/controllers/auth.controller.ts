@@ -48,7 +48,7 @@ export const login = async (req: AuthRequest, res: Response) => {
  * POST /auth/logout
  * Logout user (clear cookie)
  */
-export const logout = async (req: AuthRequest, res: Response) => {
+export const logout = async (_req: AuthRequest, res: Response) => {
     clearTokenCookie(res);
 
     res.json({

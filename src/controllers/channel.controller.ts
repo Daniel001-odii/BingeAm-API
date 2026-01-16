@@ -42,7 +42,7 @@ export const getChannelById = async (req: Request, res: Response) => {
  * GET /categories
  * Get all categories with channel counts
  */
-export const getCategories = async (req: Request, res: Response) => {
+export const getCategories = async (_req: Request, res: Response) => {
     const categories = await iptvService.getCategories();
 
     res.json({
@@ -55,7 +55,7 @@ export const getCategories = async (req: Request, res: Response) => {
  * GET /countries
  * Get all countries with channel counts
  */
-export const getCountries = async (req: Request, res: Response) => {
+export const getCountries = async (_req: Request, res: Response) => {
     const countries = await iptvService.getCountries();
 
     res.json({
@@ -68,7 +68,7 @@ export const getCountries = async (req: Request, res: Response) => {
  * GET /languages
  * Get all languages with channel counts
  */
-export const getLanguages = async (req: Request, res: Response) => {
+export const getLanguages = async (_req: Request, res: Response) => {
     const languages = await iptvService.getLanguages();
 
     res.json({

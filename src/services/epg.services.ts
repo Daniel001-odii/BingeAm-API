@@ -25,14 +25,7 @@ class EPGService {
     private GITHUB_BASE_URL = 'https://raw.githubusercontent.com/globetvapp/epg/main';
 
     // Country name mapping overrides (DB Country Code/Name -> GitHub Folder Name)
-    private countryOverrides: Record<string, string> = {
-        'US': 'UnitedStates',
-        'USA': 'UnitedStates',
-        'UK': 'UnitedKingdom',
-        'GB': 'UnitedKingdom',
-        'UAE': 'UnitedArabEmirates',
-        // Add more as discovered
-    };
+
 
     constructor() {
         console.log('📺 EPG Service Initialized (GitHub Source)');
@@ -250,7 +243,7 @@ class EPGService {
         return {
             channelId,
             date: today,
-            programs: programs.filter(p => {
+            programs: programs.filter(_p => {
                 // Filter for "today" or relevant range if needed?
                 // For now return all cached (XML usually contains ~24-48h)
                 return true;
