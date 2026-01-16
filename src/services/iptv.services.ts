@@ -213,6 +213,58 @@ class IPTVService {
     }
 
     /**
+     * Get 5 featured channels - one from each predefined top category
+     * All returned channels must have a streamUrl
+     */
+    async getFeaturedChannels(): Promise<ChannelWithStream[]> {
+        // Predefined top demand categories
+        const featuredCategories = ['sports', 'movies', 'news', 'entertainment', 'music'];
+
+        const featuredChannels: ChannelWithStream[] = [];
+
+        // Get one random channel from each category
+        for (const category of featuredCategories) {
+            // Get channels in this category
+            const channels = await prisma.channel.findMany({
+                where: {
+                    categories: { has: category }
+                },
+                take: 50 // Limit to avoid fetching too many
+            });
+
+            // Filter for channels with valid streamUrl and pick a random one
+            const validChannels = channels.filter(c => c.streamUrl && c.streamUrl.length > 0);
+
+            console.log("valid channels: ", validChannels)
+
+            if (validChannels.length > 0) {
+                const randomIndex = Math.floor(Math.random() * validChannels.length);
+                const channel = validChannels[randomIndex];
+
+                featuredChannels.push({
+                    id: channel.channelId,
+                    name: channel.name,
+                    alt_names: channel.altNames,
+                    network: channel.network || undefined,
+                    owners: channel.owners,
+                    country: channel.country || '',
+                    categories: channel.categories,
+                    is_nsfw: channel.isNsfw || false,
+                    launched: channel.launched || undefined,
+                    closed: channel.closed || undefined,
+                    replaced_by: channel.replacedBy || undefined,
+                    website: channel.website || undefined,
+                    logo: channel.logo || undefined,
+                    streamUrl: channel.streamUrl,
+                    languages: []
+                });
+            }
+        }
+
+        return featuredChannels;
+    }
+
+    /**
      * Get channels by IDs (for favorites)
      */
     async getChannelsByIds(channelIds: string[]): Promise<ChannelWithStream[]> {

@@ -28,7 +28,12 @@ export const deleteAccountSchema = z.object({
 
 // Profile Schemas
 export const updateProfileSchema = z.object({
-    username: z.string().min(3).max(30).optional()
+    username: z.string().min(3).max(30).optional(),
+    interests: z.array(z.string()).optional(),
+    country: z.string().optional(),
+    language: z.string().optional(),
+    prefferedDevice: z.string().optional(),
+    viewingHabit: z.string().optional()
 });
 
 // Channel Schemas

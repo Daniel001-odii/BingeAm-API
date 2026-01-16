@@ -16,6 +16,11 @@ export const getProfile = async (req: AuthRequest, res: Response) => {
             id: true,
             email: true,
             username: true,
+            interests: true,
+            country: true,
+            language: true,
+            prefferedDevice: true,
+            viewingHabit: true,
             createdAt: true,
             updatedAt: true
         }
@@ -55,6 +60,11 @@ export const updateProfile = async (req: AuthRequest, res: Response) => {
             id: true,
             email: true,
             username: true,
+            interests: true,
+            country: true,
+            language: true,
+            prefferedDevice: true,
+            viewingHabit: true,
             updatedAt: true
         }
     });

@@ -76,3 +76,16 @@ export const getLanguages = async (_req: Request, res: Response) => {
         data: { languages }
     });
 };
+
+/**
+ * GET /channels/featured
+ * Get 5 randomly selected featured channels from top demand categories
+ */
+export const getFeaturedChannels = async (_req: Request, res: Response) => {
+    const channels = await iptvService.getFeaturedChannels();
+
+    res.json({
+        status: 'success',
+        data: { channels }
+    });
+};
