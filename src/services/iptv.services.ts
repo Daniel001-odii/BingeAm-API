@@ -85,7 +85,7 @@ class IPTVService {
         // Map to ChannelWithStream (Prisma types match closely, but need to ensure)
         // prisma channel has streamUrl (String) and logo (String?)
         const data: ChannelWithStream[] = channels.map(c => ({
-            id: c.channelId, // Map MongoDB _id to id or stick to channelId as the public ID? The previous app used string IDs. Seed uses `channel.id` as `channelId` and `_id` is auto.
+            id: c.id, // Map MongoDB _id to id or stick to channelId as the public ID? The previous app used string IDs. Seed uses `channel.id` as `channelId` and `_id` is auto.
             // `getChannelById` used `channelId` param.
             // The `ChannelWithStream` type likely expects the string ID from source (e.g. "cnn-us").
             // Our schema: `channelId` is that ID. `id` is db ID.
