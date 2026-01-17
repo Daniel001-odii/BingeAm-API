@@ -6,16 +6,16 @@ import { AddFavoriteInput } from '../types/schema';
 
 /**
  * POST /favorites
- * Add channel to favorites
+ * Toggle channel favorite status
  */
 export const addFavorite = async (req: AuthRequest, res: Response) => {
     const data: AddFavoriteInput = req.body;
 
-    const favorite = await favoriteService.addFavorite(req.userId!, data.channelId);
+    const result = await favoriteService.toggleFavorite(req.userId!, data.channelId);
 
-    res.status(201).json({
+    res.status(200).json({
         status: 'success',
-        data: { favorite }
+        data: result
     });
 };
 

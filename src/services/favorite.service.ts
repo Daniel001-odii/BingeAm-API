@@ -5,9 +5,9 @@ import { iptvService } from './iptv.services';
 
 class FavoriteService {
     /**
-     * Add channel to favorites
+     * Toggle channel favorite status
      */
-    async addFavorite(userId: string, channelId: string) {
+    async toggleFavorite(userId: string, channelId: string) {
         // Verify channel exists
         const channel = await iptvService.getChannelById(channelId);
         if (!channel) {
@@ -25,7 +25,12 @@ class FavoriteService {
         });
 
         if (existing) {
-            throw new AppError('Channel already in favorites', 400);
+            await prisma.favorite.delete({
+                where: {
+                    id: existing.id
+                }
+            });
+            return { action: 'removed' };
         }
 
         const favorite = await prisma.favorite.create({
@@ -35,7 +40,7 @@ class FavoriteService {
             }
         });
 
-        return favorite;
+        return { action: 'added', favorite };
     }
 
     /**

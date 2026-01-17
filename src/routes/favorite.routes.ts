@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import {
     addFavorite,
-    removeFavorite,
     getFavorites
 } from '../controllers/favorite.controller';
 import { protect } from '../middlewares/auth.middleware';
@@ -14,7 +13,6 @@ const router = Router();
 router.use(protect); // All favorite routes require authentication
 
 router.post('/', validate(z.object({ body: addFavoriteSchema })), addFavorite);
-router.delete('/:channelId', removeFavorite);
 router.get('/', getFavorites);
 
 export default router;

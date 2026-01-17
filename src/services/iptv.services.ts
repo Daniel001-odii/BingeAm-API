@@ -85,11 +85,8 @@ class IPTVService {
         // Map to ChannelWithStream (Prisma types match closely, but need to ensure)
         // prisma channel has streamUrl (String) and logo (String?)
         const data: ChannelWithStream[] = channels.map(c => ({
-            id: c.id, // Map MongoDB _id to id or stick to channelId as the public ID? The previous app used string IDs. Seed uses `channel.id` as `channelId` and `_id` is auto.
-            // `getChannelById` used `channelId` param.
-            // The `ChannelWithStream` type likely expects the string ID from source (e.g. "cnn-us").
-            // Our schema: `channelId` is that ID. `id` is db ID.
-            // Let's use `channelId` as the exposed `id`.
+            id: c.id,
+            channelId: c.channelId,
             name: c.name,
             alt_names: c.altNames,
             network: c.network || undefined,
@@ -128,14 +125,15 @@ class IPTVService {
      * Get single channel by ID
      */
     async getChannelById(channelId: string): Promise<ChannelWithStream | null> {
-        const channel = await prisma.channel.findFirst({
+        const channel = await prisma.channel.findUnique({
             where: { id: channelId }
         });
 
         if (!channel) return null;
 
         return {
-            id: channel.channelId,
+            id: channel.id,
+            channelId: channel.channelId,
             name: channel.name,
             alt_names: channel.altNames,
             network: channel.network || undefined,
@@ -242,7 +240,8 @@ class IPTVService {
                 const channel = validChannels[randomIndex];
 
                 featuredChannels.push({
-                    id: channel.channelId,
+                    id: channel.id,
+                    channelId: channel.channelId,
                     name: channel.name,
                     alt_names: channel.altNames,
                     network: channel.network || undefined,
@@ -270,12 +269,13 @@ class IPTVService {
     async getChannelsByIds(channelIds: string[]): Promise<ChannelWithStream[]> {
         const channels = await prisma.channel.findMany({
             where: {
-                channelId: { in: channelIds }
+                id: { in: channelIds }
             }
         });
 
         return channels.map(c => ({
-            id: c.channelId,
+            id: c.id,
+            channelId: c.channelId,
             name: c.name,
             alt_names: c.altNames,
             network: c.network || undefined,

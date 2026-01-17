@@ -1,6 +1,7 @@
 
 export interface IPTVChannel {
     id: string;
+    channelId: string;
     name: string;
     alt_names?: string[];
     network?: string;
